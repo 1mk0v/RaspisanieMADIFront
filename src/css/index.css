@@ -1,0 +1,14 @@
+body {
+    width: 100vw;
+    height: 100vh;
+    background-color: #374151;
+}
+
+#app {
+    width: 100vw;
+    height: 100vh;
+}
+
+.weekdayStyle {
+    background-color: aqua;
+}
