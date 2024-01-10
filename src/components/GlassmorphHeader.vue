@@ -71,9 +71,6 @@ export default {
     border-radius: 50px;
     background: linear-gradient(113deg, rgba(154, 154, 154, 0.40) 99.99%, rgba(0, 0, 0, 0.00) 100%);
     backdrop-filter: blur(10px);
-    color:white;
-    font-size: 24px;
-    font-weight: bold;
   }
   .headerData {
     display: flex;

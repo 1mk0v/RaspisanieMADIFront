@@ -1,30 +1,37 @@
 <template>
- <p></p>
+  <ButtonCard
+    @clickCardEvent="clickButton"
+    :cardName="cardName"
+    :cardID="cardID">
+  </ButtonCard>
+  <InputCard
+    :cardID="cardID">
+  </InputCard>
 </template>
 
 <script>
+import ButtonCard from './ButtonCard.vue'
+import InputCard from './InputCard.vue';
+
 export default {
-  name: 'card',
+  name: 'GlassmorphCard',
   props: {
-    cardName: String
+    cardName: String,
+    cardID: String
+  },
+  components: {
+    ButtonCard,
+    InputCard
+}, 
+  methods:{
+    clickButton(id) {
+      console.log(id)
+    }
   }
 }
 </script>
 
 
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+
 </style>
