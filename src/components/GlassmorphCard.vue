@@ -1,19 +1,20 @@
 <template>
-  <ButtonCard
-    v-if="buttonVisible"
-    @clickCardEvent="clickButton"
-    :cardName="cardName"
-    :cardID="cardID">
-  </ButtonCard>
-  <InputCard
-    v-if="inputVisible"
-    :cardID="cardID">
-  </InputCard>
+    <ButtonCard
+      v-if="buttonVisible"
+      @clickCardEvent="clickButton"
+      :cardName="cardName"
+      :cardID="cardID">
+    </ButtonCard>
+    <InputCard
+      @exitClickEvent="exitButton"
+      v-if="inputVisible"
+      :cardID="cardID">
+    </InputCard>
 </template>
 
 <script>
 import ButtonCard from './ButtonCard.vue'
-import InputCard from './InputCard.vue';
+import InputCard from './Input/InputCard.vue';
 
 export default {
   name: 'GlassmorphCard',
@@ -23,12 +24,15 @@ export default {
     buttonVisible: Boolean,
     inputVisible: Boolean
   },
-  emits:['changeVisibleEvent'],
+  emits:['changeVisibleEvent','closeInputEvent'],
   components: {
     ButtonCard,
     InputCard
   },
   methods:{
+    exitButton(id) {
+      this.$emit('closeInputEvent', id)
+    },
     clickButton(id) {
       this.$emit('changeVisibleEvent', id)
     }
@@ -38,7 +42,12 @@ export default {
 
 
 <style scoped>
-  #GlassmorphCard {
+  /* #GlassmorphCard {
     z-index: 2;
-  }
+    color: #FFF;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  } */
 </style>

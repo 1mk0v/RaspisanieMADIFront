@@ -7,25 +7,29 @@
         cardID="group"
         :buttonVisible="this.visible['group']['button']"
         :inputVisible="this.visible['group']['input']"
-        @changeVisibleEvent="changeVisibleCard"></GlassmorphCard>
+        @changeVisibleEvent="changeVisibleCard"
+        @closeInputEvent="closeInput"></GlassmorphCard>
       <GlassmorphCard
         cardName="Расписание преподавателей"
         cardID="teacher"
         :buttonVisible="this.visible['teacher']['button']"
         :inputVisible="this.visible['teacher']['input']"
-        @changeVisibleEvent="changeVisibleCard"></GlassmorphCard>
+        @changeVisibleEvent="changeVisibleCard"
+        @closeInputEvent="closeInput"></GlassmorphCard>
       <GlassmorphCard
         cardName="Расписание экзаменов"
         cardID="exams"
         :buttonVisible="this.visible['exams']['button']"
         :inputVisible="this.visible['exams']['input']"
-        @changeVisibleEvent="changeVisibleCard"></GlassmorphCard>
+        @changeVisibleEvent="changeVisibleCard"
+        @closeInputEvent="closeInput"></GlassmorphCard>
       <GlassmorphCard
         cardName="Свободные аудитории"
         cardID="auditotiums"
         :buttonVisible="this.visible['auditotiums']['button']"
         :inputVisible="this.visible['auditotiums']['input']"
-        @changeVisibleEvent="changeVisibleCard"></GlassmorphCard>
+        @changeVisibleEvent="changeVisibleCard"
+        @closeInputEvent="closeInput"></GlassmorphCard>
     </div>
 </template>
 
@@ -65,6 +69,12 @@ export default {
         this.visible[key]['button'] = false
       } 
       this.visible[cardID]['input'] = true
+    },
+    closeInput(cardID) {
+      this.visible[cardID]['input'] = false
+      for (let key in this.visible) {
+        this.visible[key]['button'] = true
+      } 
     }
   }
 }
