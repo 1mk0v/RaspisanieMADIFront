@@ -1,5 +1,5 @@
 <template>
-  <div style="display: flex; justify-content: center;">
+  <div style="width: 100%;">
     <div id='header'>
       <div class='headerData' style="text-align: left;">{{ weekday}}</div>
       <div class='headerData' style="text-align: center;">{{ date }}</div>
@@ -64,7 +64,6 @@ export default {
 <style scoped>
   #header {
     display: flex;
-    width: 100%;
     padding: 22px 44px;
     justify-content: space-between;
     align-items: center;

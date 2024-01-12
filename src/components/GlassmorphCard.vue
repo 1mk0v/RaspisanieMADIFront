@@ -1,10 +1,12 @@
 <template>
   <ButtonCard
+    v-if="buttonVisible"
     @clickCardEvent="clickButton"
     :cardName="cardName"
     :cardID="cardID">
   </ButtonCard>
   <InputCard
+    v-if="inputVisible"
     :cardID="cardID">
   </InputCard>
 </template>
@@ -17,15 +19,18 @@ export default {
   name: 'GlassmorphCard',
   props: {
     cardName: String,
-    cardID: String
+    cardID: String,
+    buttonVisible: Boolean,
+    inputVisible: Boolean
   },
+  emits:['changeVisibleEvent'],
   components: {
     ButtonCard,
     InputCard
-}, 
+  },
   methods:{
     clickButton(id) {
-      console.log(id)
+      this.$emit('changeVisibleEvent', id)
     }
   }
 }
@@ -33,5 +38,7 @@ export default {
 
 
 <style scoped>
-
+  #GlassmorphCard {
+    z-index: 2;
+  }
 </style>

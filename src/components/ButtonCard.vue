@@ -23,7 +23,7 @@
      emits: ['clickCardEvent'],
      methods: {
        clickEvent() {
-         this.$emit('clickCardEvent', this.id);
+         this.$emit('clickCardEvent', this.cardID);
        }
      }
   }
