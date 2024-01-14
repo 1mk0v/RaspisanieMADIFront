@@ -1,18 +1,16 @@
 <template>
-    <div id="exit-button" @click="exitClick">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 23" fill="none">
-          <path d="M1 11L11 16.7735V5.2265L1 11ZM24 10L10 10V12L24 12V10Z" fill="white"/>
-        </svg>
+    <div id="button-container" @click="exitClick">
+        <div id="exit-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="23" height="13" viewBox="0 0 23 13" fill="none">
+                <path d="M0 6.5L10 12.2735V0.726497L0 6.5ZM23 5.5L9 5.5V7.5L23 7.5V5.5Z" fill="white"/>
+            </svg>
+        </div>
     </div>
 </template>
 
 <script>
     export default {
         name:'ExitButton',
-        // props:{
-        //     width:Number,
-        //     height:Number
-        // },
         emits:['exitClickEvent'],
         methods:{
             exitClick() {
@@ -23,12 +21,20 @@
 </script>
 
 <style scoped>
+#button-container {
+    display: flex;
+    padding: 11px 22px;
+    align-items: center;
+    gap: 272px;
+    align-self: stretch;
+    border-radius: 50px;
+    background: linear-gradient(113deg, rgba(221, 221, 221, 0.40) 99.99%, rgba(0, 0, 0, 0.00) 100%);
+    backdrop-filter: blur(10px);
+}
 #exit-button {
-  display: flex;
-  padding: 11px;
-  align-items: center;
-  border-radius: 50px;
-  background: linear-gradient(113deg, rgba(154, 154, 154, 0.40) 99.99%, rgba(0, 0, 0, 0.00) 100%);
-  backdrop-filter: blur(10px);
+    display: flex;
+    padding: 11px;
+    align-items: center;
+    gap: 10px;
 }
 </style>

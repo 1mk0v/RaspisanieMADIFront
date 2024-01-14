@@ -1,110 +1,70 @@
 
 <template>
+  <div id="main-container">
     <GlassmorphHeader></GlassmorphHeader>
-    <div id="cards-container">
-      <GlassmorphCard
-        cardName="Расписание групп"
-        cardID="group"
-        :buttonVisible="this.visible['group']['button']"
-        :inputVisible="this.visible['group']['input']"
-        @changeVisibleEvent="changeVisibleCard"
-        @closeInputEvent="closeInput"></GlassmorphCard>
-      <GlassmorphCard
-        cardName="Расписание преподавателей"
-        cardID="teacher"
-        :buttonVisible="this.visible['teacher']['button']"
-        :inputVisible="this.visible['teacher']['input']"
-        @changeVisibleEvent="changeVisibleCard"
-        @closeInputEvent="closeInput"></GlassmorphCard>
-      <GlassmorphCard
-        cardName="Расписание экзаменов"
-        cardID="exams"
-        :buttonVisible="this.visible['exams']['button']"
-        :inputVisible="this.visible['exams']['input']"
-        @changeVisibleEvent="changeVisibleCard"
-        @closeInputEvent="closeInput"></GlassmorphCard>
-      <GlassmorphCard
-        cardName="Свободные аудитории"
-        cardID="auditotiums"
-        :buttonVisible="this.visible['auditotiums']['button']"
-        :inputVisible="this.visible['auditotiums']['input']"
-        @changeVisibleEvent="changeVisibleCard"
-        @closeInputEvent="closeInput"></GlassmorphCard>
-    </div>
+    <MenuContainer 
+      v-if="menuView"
+      @buttonClickEvent="changeCurrentTab"></MenuContainer>
+    <SelectContainer v-else
+      :cardID="currentCard"
+      @closeSelectEvent="closeSelectTab"></SelectContainer> 
+  </div>
 </template>
 
 
 <script>
-
-import GlassmorphHeader from './components/GlassmorphHeader.vue';
-import GlassmorphCard from './components/GlassmorphCard.vue';
+import GlassmorphHeader from './components/Header/GlassmorphHeader.vue';
+import MenuContainer from './components/Containers/MenuContainer.vue';
+import SelectContainer from './components/Containers/SelectContainer.vue';
 
 export default {
     data() {
       return {
-        visible: {
-          "group": {
-            "button": true, "input": false
-          },
-          "teacher": {
-            "button": true, "input": false
-          },
-          "exams": {
-            "button": true, "input": false
-          },
-          "auditotiums": {
-            "button": true, "input": false
-          }
-        }
+        menuView: true,
+        currentCard: ''
       }
     },
     name: 'App',
     components: {
       GlassmorphHeader,
-      GlassmorphCard
+      MenuContainer,
+      SelectContainer
   },
   methods: {
-    changeVisibleCard(cardID) {
-      for (let key in this.visible) {
-        this.visible[key]['button'] = false
-      } 
-      this.visible[cardID]['input'] = true
+    closeSelectTab() {
+      this.menuView = true
     },
-    closeInput(cardID) {
-      this.visible[cardID]['input'] = false
-      for (let key in this.visible) {
-        this.visible[key]['button'] = true
-      } 
+    changeCurrentTab(id) {
+      console.log(id)
+      this.menuView = false
+      this.currentCard = id
     }
   }
-}
+  }
 </script>
 
 
 <style>
 #app {
-  position: absolute;
+  position: fixed;
   top: 0;
-  left: 0;
-  right: 0;
   bottom: 0;
+  right: 0;
+  left: 0;
   display: flex;
   padding: 50px;
-  flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 25px;
-  color: white;
+  color: #fff;
   font-size: 24px;
   font-weight: bold;
 }
-#cards-container {
+#main-container {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  align-content: space-between;
+  gap: 25px;
   flex: 1 0 0;
   align-self: stretch;
-  flex-wrap: wrap;
 }
 </style>
