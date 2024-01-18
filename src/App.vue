@@ -66,5 +66,7 @@ export default {
   gap: 25px;
   flex: 1 0 0;
   align-self: stretch;
+  box-sizing: border-box;
+  position: relative;
 }
 </style>

@@ -2,56 +2,100 @@
     <div id="select-container">
         <div id="tool-bar">
             <ExitButton
-                @exitClickEvent="closeSelect"></ExitButton>
-            <TextInfoConatiner v-for="text in this.settings['choosedParams']" :customText="text" :key="text"></TextInfoConatiner>
+                @exitClickEvent="closeSelect">
+            </ExitButton>
+            <TextInfoConatiner 
+                v-for="text in this.settings['choosedParams']" 
+                :customText="text" 
+                :key="text">
+            </TextInfoConatiner>
         </div>
+        <DataContainer
+            :data-list="response"
+            @click-data-event="addCommunity">
+        </DataContainer>
     </div>
 </template>
 
 <script>
 import ExitButton from '../Buttons/ExitButton.vue';
 import TextInfoConatiner from './TextInfoConatiner.vue';
-import { watch } from 'vue';
+import DataContainer from './DataContainer.vue';
+import { API } from '@/api.js';
 
 export default {
-    props: {
-        cardID:String
-    },
     data() {
         return {
+            response: '',
             weekday: '',
-            textToChoose: '',
+            communityValue: '',
             settings: {
-                'choosedParams': [this.cardID]
+                'choosedParams': []
             }
         }
     },
-    setup(props) {
-        watch(() => [props.cardID], (newValues, oldValues) => {
-          console.log('Prop values changed:', newValues, oldValues);
-        });
+    props: {
+        cardID:String
     },
-    // watch: {
-    //     cardID() {
-    //         if (this.card == 'group') {
-    //             this.textToChoose = 'Выберите группу'
-    //         } else if (this.card == 'teacher') {
-    //             this.textToChoose = 'Выберите преподавателя'
-    //         } else if (this.card == 'exams') {
-    //             this.textToChoose = 'Пока не реализовано'
-    //         } else if (this.card == 'auditoriums') {
-    //             this.textToChoose = 'Пока не реализовано'
-    //         }
-    //     }
-    // },
+    watch: {
+        cardID: {
+            handler(value) {
+                if (value== 'group') {
+                    this.settings['choosedParams'] = ['Выберите группу']
+                    this.getCommunityList(value)
+                } else if (value == 'teacher') {
+                    this.settings['choosedParams'] = ['Выберите преподавателя']
+                    this.getCommunityList(value)
+                } else if (value == 'exam') {
+                    this.settings['choosedParams'] = ['Пока не реализовано']
+                } else if (value == 'auditorium') {
+                    this.settings['choosedParams'] = ['Пока не реализовано']
+                }
+            },
+            deep: true,
+            immediate: true
+        },
+        communityValue: {
+            handler() {
+                console.log('communityValue')
+            },
+            deep: true,
+            immediate: true
+        }
+    },
     emits: ['closeSelectEvent'],
     components: {
-        ExitButton, TextInfoConatiner
+        ExitButton, TextInfoConatiner, DataContainer
     },
 
     methods: {
         closeSelect() {
             this.$emit('closeSelectEvent')
+        },
+        getCommunityList(community) {
+            const communityAPI = new API('/' + community);
+            communityAPI.get().then(
+                (data) => {
+                    this.response = data.data
+                }
+            ).catch(
+                console.log('SOMETHING WRONG')
+            )
+        },
+        getCommunitySchedule(community, id) {
+            const communityAPI = new API('/' + community);
+            communityAPI.getSchedule(id).then(
+                (data) => {
+                    console.log(data.data)
+                    this.response = data.data
+                }
+            ).catch(
+                console.log('SOMETHING WRONG')
+            )
+        },
+        addCommunity(target) {
+            this.getCommunitySchedule(this.cardID, target.id)
+            this.settings['choosedParams'] = [target.innerText]
         }
     }
 }
@@ -70,6 +114,9 @@ export default {
     background: linear-gradient(113deg, rgba(154, 154, 154, 0.40) 99.99%, rgba(0, 0, 0, 0.00) 100%);
     backdrop-filter: blur(10px);
     font-weight:400;
+    position: relative;
+    height: 50%;
+    overflow: visible;
 }
 #tool-bar {
     display: flex;

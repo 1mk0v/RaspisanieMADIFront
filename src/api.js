@@ -27,8 +27,4 @@ class API {
     }
 }
 
-const TEACHER_API = new API('/teacher')
-const GROUP_API = new API('/group')
-const DEPARTMENT_API = new API('/department')
-
-export { TEACHER_API, GROUP_API, DEPARTMENT_API, API }
+export { API }
