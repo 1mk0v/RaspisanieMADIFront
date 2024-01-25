@@ -27,11 +27,6 @@
     import ButtonCard from './../Buttons/ButtonCard.vue';
 
     export default {
-        data() {
-            return {
-
-            }
-        },
         name: "MenuContainer",
         emits: ['buttonClickEvent'],
         components: {

@@ -35,7 +35,6 @@ export default {
       this.menuView = true
     },
     changeCurrentTab(id) {
-      console.log(id)
       this.menuView = false
       this.currentCard = id
     }

@@ -1,11 +1,13 @@
 <template>
     <div v-if="this.isButton"
+        :styles="this.customStyles"
         id="text-container"
         @click="clickButton">
         <span style="text-align: center;">{{ customText }}</span>
     </div>
     <div v-else
-         id="text-container">
+        :styles="this.customStyles"
+        id="text-container">
         <span style="text-align: center;">{{ customText }}</span>
     </div>
 </template>
@@ -16,6 +18,7 @@ export default {
         isButton:Boolean,
         id:String,
         customText:String,
+        customStyles:String
     },
     emits:['buttonClickEvent'],
     methods:{

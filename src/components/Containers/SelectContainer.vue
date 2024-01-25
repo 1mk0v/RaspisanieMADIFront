@@ -16,7 +16,7 @@
         <DataContainer
             :weekday="weekday"
             :communityID="communityID"
-            :card-i-d="this.cardID"
+            :card-i-d="this.id"
             @click-data-event="addParams">
         </DataContainer>
     </div>
@@ -30,6 +30,7 @@ import DataContainer from './DataContainer.vue';
 export default {
     data() {
         return {
+            id: this.cardID,
             weekday: '',
             communityValue: '',
             communityID: '',
@@ -40,7 +41,7 @@ export default {
         cardID:String
     },
     watch: {
-        cardID: {
+        id: {
             handler(value) {
                 this.chooseTitle(value)
             },
@@ -52,7 +53,7 @@ export default {
                 if (value == '' && this.communityValue != '') {
                     this.inputList = [{"id":"community", "value":this.communityValue, "isButton":false}]
                 } else {
-                    this.inputList = [{"id":"community", "value":this.communityValue, "isButton":false},
+                    this.inputList = [{"id":"community", "value": this.communityValue, "isButton":false},
                                       {"id":"weekday", "value": this.weekday, "isButton":true}]
                 }
             },
@@ -95,7 +96,10 @@ export default {
             } else if (cardID == 'teacher') {
                 this.inputList = [{"id":"info", "value":'Выберите преподавателя', "isButton":false}]
             } else if (cardID == 'exam') {
-                this.inputList = [{"id":"info", "value":'Пока не реализовано', "isButton":false}]
+                this.inputList = [
+                    {"id":"teacher", "value":'Преподаватель', "isButton":true}, 
+                    {"id":"group", "value":'Группа', "isButton":true}
+                ]
             } else if (cardID == 'auditorium') {
                 this.inputList = [{"id":"info", "value":'Пока не реализовано', "isButton":false}]
             }
@@ -104,6 +108,9 @@ export default {
             if (id == 'weekday') {
                 this.weekday = ''
                 this.inputList = [{"id":"community", "value":this.communityValue, "isButton":false}]
+            } else if (['group', 'teacher'].includes(id)) {
+                this.id = this.cardID+'/'+id
+                console.log(this.id)
             }
         }
     }
