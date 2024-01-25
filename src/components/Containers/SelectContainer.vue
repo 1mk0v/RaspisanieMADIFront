@@ -5,14 +5,19 @@
                 @exitClickEvent="closeSelect">
             </ExitButton>
             <TextInfoConatiner 
-                v-for="text in this.settings['choosedParams']" 
-                :customText="text" 
-                :key="text">
+                v-for="element in this.inputList" 
+                :customText="element.value"
+                :isButton="element.isButton"
+                :id="element.id"
+                @buttonClickEvent="buttonClick" 
+                :key="element">
             </TextInfoConatiner>
         </div>
         <DataContainer
-            :data-list="response"
-            @click-data-event="addCommunity">
+            :weekday="weekday"
+            :communityID="communityID"
+            :card-i-d="this.cardID"
+            @click-data-event="addParams">
         </DataContainer>
     </div>
 </template>
@@ -21,17 +26,14 @@
 import ExitButton from '../Buttons/ExitButton.vue';
 import TextInfoConatiner from './TextInfoConatiner.vue';
 import DataContainer from './DataContainer.vue';
-import { API } from '@/api.js';
 
 export default {
     data() {
         return {
-            response: '',
             weekday: '',
             communityValue: '',
-            settings: {
-                'choosedParams': []
-            }
+            communityID: '',
+            inputList: []
         }
     },
     props: {
@@ -40,28 +42,34 @@ export default {
     watch: {
         cardID: {
             handler(value) {
-                if (value== 'group') {
-                    this.settings['choosedParams'] = ['Выберите группу']
-                    this.getCommunityList(value)
-                } else if (value == 'teacher') {
-                    this.settings['choosedParams'] = ['Выберите преподавателя']
-                    this.getCommunityList(value)
-                } else if (value == 'exam') {
-                    this.settings['choosedParams'] = ['Пока не реализовано']
-                } else if (value == 'auditorium') {
-                    this.settings['choosedParams'] = ['Пока не реализовано']
+                this.chooseTitle(value)
+            },
+            deep: true,
+            immediate: true
+        },
+        weekday: {
+            handler(value) {
+                if (value == '' && this.communityValue != '') {
+                    this.inputList = [{"id":"community", "value":this.communityValue, "isButton":false}]
+                } else {
+                    this.inputList = [{"id":"community", "value":this.communityValue, "isButton":false},
+                                      {"id":"weekday", "value": this.weekday, "isButton":true}]
                 }
             },
             deep: true,
             immediate: true
         },
         communityValue: {
-            handler() {
-                console.log('communityValue')
+            handler(value) {
+                if (value == '') {
+                    this.chooseTitle(this.cardID)
+                } else {
+                    this.inputList = [{"id":"community", "value":this.communityValue, "isButton":false}]
+                }
             },
             deep: true,
             immediate: true
-        }
+        },
     },
     emits: ['closeSelectEvent'],
     components: {
@@ -72,30 +80,31 @@ export default {
         closeSelect() {
             this.$emit('closeSelectEvent')
         },
-        getCommunityList(community) {
-            const communityAPI = new API('/' + community);
-            communityAPI.get().then(
-                (data) => {
-                    this.response = data.data
-                }
-            ).catch(
-                console.log('SOMETHING WRONG')
-            )
+        addParams(event) {
+            if (['Понедельник','Вторник','Среда','Четверг',
+                'Пятница','Суббота','Воскресенье'].includes(event.innerHTML)) {
+                this.weekday = event.innerHTML
+            } else {
+                this.communityValue = event.innerHTML
+                this.communityID = event.id
+            }
         },
-        getCommunitySchedule(community, id) {
-            const communityAPI = new API('/' + community);
-            communityAPI.getSchedule(id).then(
-                (data) => {
-                    console.log(data.data)
-                    this.response = data.data
-                }
-            ).catch(
-                console.log('SOMETHING WRONG')
-            )
+        chooseTitle(cardID) {
+            if (cardID == 'group') {
+                this.inputList = [{"id":"info", "value":'Выберите группу', "isButton":false}]
+            } else if (cardID == 'teacher') {
+                this.inputList = [{"id":"info", "value":'Выберите преподавателя', "isButton":false}]
+            } else if (cardID == 'exam') {
+                this.inputList = [{"id":"info", "value":'Пока не реализовано', "isButton":false}]
+            } else if (cardID == 'auditorium') {
+                this.inputList = [{"id":"info", "value":'Пока не реализовано', "isButton":false}]
+            }
         },
-        addCommunity(target) {
-            this.getCommunitySchedule(this.cardID, target.id)
-            this.settings['choosedParams'] = [target.innerText]
+        buttonClick(id) {
+            if (id == 'weekday') {
+                this.weekday = ''
+                this.inputList = [{"id":"community", "value":this.communityValue, "isButton":false}]
+            }
         }
     }
 }

@@ -1,8 +1,15 @@
 <template>
-    <div id="data-container">
+    <div id="data-container" v-if="this.scheduleOnWeekday.length > 0">
+        <ScheduleCard
+            v-for="element in this.scheduleOnWeekday"
+            :data="element"
+            :key="element.discipline+element.time">
+        </ScheduleCard>
+    </div>
+    <div id="data-container" v-else-if="this.data.length > 0 ">
         <div class="option-data"
-            v-for="element in dataList"
-            :key="element.id"
+            v-for="element in this.data"
+            :key="element"
             :id="element.id"
             @click="clickOnData">
             {{ element.value }}
@@ -11,21 +18,102 @@
 </template>
 
 <script>
-// import TextInfoConatiner from './TextInfoConatiner.vue';
+import ScheduleCard from '../Cards/ScheduleCard.vue'
+import { API } from '@/api'
+
 export default {
     name: 'DataContainer',
     data(){
         return {
+            data: [],
+            scheduleFull: [],
+            scheduleOnWeekday: []
         }
     },
     props: {
-        dataList:Array
+        weekday:String,
+        communityID:String,
+        cardID:String
+    },
+    created() {
+        this.getCommunityList(this.cardID, '')
+    },
+    watch: {
+        weekday: {
+            handler(value) {
+                if (value) {
+                    this.getScheduleOnWeekday(value)
+                } else {
+                    this.scheduleOnWeekday = []
+                }
+            },
+            deep: true,
+            immediate: true
+        },
+        communityID: {
+            handler(value) {
+                if (value) {
+                    this.getCommunitySchedule(this.cardID, '', value)
+                }
+            },
+            deep: true,
+            immediate: true
+        },
     },
     emits: ['clickDataEvent'],
+    components: {
+        ScheduleCard
+    },
     methods:{
         clickOnData(event) {
-            console.log(event.target)
             this.$emit('clickDataEvent', event.target)
+        },
+        async getCommunityList(community, path = '') {
+            const communityAPI = new API('/' + community + path);
+            await communityAPI.get()
+            .then(
+                (data) => {
+                    this.data = data.data
+                }
+            ).catch(
+                (error) => {
+                    console.log(error)
+                }
+            )
+        },
+
+        getCommunitySchedule(community, path, id) {
+            const communityAPI = new API('/' + community + path);
+            communityAPI.getSchedule(id).then(
+                (data) => {
+                    this.scheduleFull = data.data
+                    this.data = []
+                    this.getWeekdaysListFromSchedule(data.data)
+                }
+            ).catch(
+                console.log('SOMETHING WRONG')
+            )
+        },
+
+        getWeekdaysListFromSchedule(schedule) {
+            let data = []
+            let index = -1
+            for (let element of schedule) {
+                if (!(data.includes(element.weekday))) {
+                    data.push(element.weekday)
+                }
+            }
+            for (let weekday of data) {this.data.push({"id":++index, "value":weekday})}
+        }, 
+
+        getScheduleOnWeekday(weekday) {
+            let scheduleOnWeekday = []
+            for (let element of this.scheduleFull) {
+                if (element.weekday == weekday) {
+                    scheduleOnWeekday.push(element)
+                }
+            }
+            this.scheduleOnWeekday = scheduleOnWeekday
         }
     }
 }
