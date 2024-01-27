@@ -28,7 +28,7 @@
                 <div>
                     <font-awesome-icon icon="fa-regular fa-calendar"></font-awesome-icon>
                 </div>
-                <div>{{ data.date.friequency }}</div>
+                <div>{{ calendar }}</div>
             </div>
         </div>
     </div>
@@ -46,13 +46,13 @@ export default {
             return this.data.group && this.data.group.value || this.data.teacher && this.data.teacher.value || '' 
         },
         time() {
-            if (this.data.date.time) {
-                console.log(this.data.date.time.start.slice(0, -3), this.data.date.time.end.slice(0, -3))
-            }
             return this.data.date.time && {
                 "start":this.data.date.time.start.slice(0, -3), 
-                "end":this.data.date.time.end.slice(0, -3)
+                "end": (this.data.date.time.end && this.data.date.time.end.slice(0, -3) || '')
             } || {"start":'Весь', "end":'день'}
+        },
+        calendar() {
+            return this.data.date.friequency || this.data.date.day
         }
     }
 }

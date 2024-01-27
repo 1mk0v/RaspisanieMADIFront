@@ -5,9 +5,15 @@
     <MenuContainer 
       v-if="menuView"
       @buttonClickEvent="changeCurrentTab"></MenuContainer>
-    <SelectContainer v-else
-      :cardID="currentCard"
-      @closeSelectEvent="closeSelectTab"></SelectContainer> 
+    <SelectContainer 
+      v-else-if="['teacher', 'group'].includes(currentCard)"
+      :card-i-d="currentCard"
+      @closeSelectEvent="closeSelectTab"></SelectContainer>
+    <ExamSelectContainer v-else
+      :card-i-d="currentCard"
+      @close-select-event="closeSelectTab">
+    </ExamSelectContainer>
+
   </div>
 </template>
 
@@ -16,6 +22,7 @@
 import GlassmorphHeader from './components/Header/GlassmorphHeader.vue';
 import MenuContainer from './components/Containers/MenuContainer.vue';
 import SelectContainer from './components/Containers/SelectContainer.vue';
+import ExamSelectContainer from './components/Containers/Exam/ExamSelectContainer.vue';
 
 export default {
     data() {
@@ -26,10 +33,11 @@ export default {
     },
     name: 'App',
     components: {
-      GlassmorphHeader,
-      MenuContainer,
-      SelectContainer
-  },
+    GlassmorphHeader,
+    MenuContainer,
+    SelectContainer,
+    ExamSelectContainer
+},
   methods: {
     closeSelectTab() {
       this.menuView = true

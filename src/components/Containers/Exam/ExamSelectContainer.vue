@@ -13,59 +13,41 @@
                 :key="element">
             </TextInfoConatiner>
         </div>
-        <DataContainer
-            :weekday="weekday"
+        <ExamDataContainer
+            :community-type="communityType"
             :communityID="communityID"
             :card-i-d="this.id"
             @click-data-event="addParams">
-        </DataContainer>
+        </ExamDataContainer>
     </div>
 </template>
 
 <script>
-import ExitButton from '../Buttons/ExitButton.vue';
-import TextInfoConatiner from './TextInfoConatiner.vue';
-import DataContainer from './DataContainer.vue';
+import ExitButton from '../../Buttons/ExitButton.vue';
+import TextInfoConatiner from '../TextInfoConatiner.vue';
+import ExamDataContainer from './ExamDataContainer.vue';
 
 export default {
     data() {
         return {
             id: this.cardID,
-            weekday: '',
+            communityType: '',
             communityValue: '',
             communityID: '',
-            inputList: []
+            inputList: [
+                {"id":"teacher", "value":'Преподаватель', "isButton":true},
+                {"id":"group", "value":'Группа', "isButton":true}
+            ]
         }
     },
     props: {
         cardID:String
     },
     watch: {
-        id: {
-            handler(value) {
-                this.chooseTitle(value)
-            },
-            deep: true,
-            immediate: true
-        },
-        weekday: {
-            handler(value) {
-                if (value == '' && this.communityValue != '') {
-                    this.inputList = [{"id":"community", "value":this.communityValue, "isButton":false}]
-                } else {
-                    this.inputList = [{"id":"community", "value": this.communityValue, "isButton":false},
-                                      {"id":"weekday", "value": this.weekday, "isButton":true}]
-                }
-            },
-            deep: true,
-            immediate: true
-        },
         communityValue: {
             handler(value) {
-                if (value == '') {
-                    this.chooseTitle(this.cardID)
-                } else {
-                    this.inputList = [{"id":"community", "value":this.communityValue, "isButton":false}]
+                if (value) {
+                    this.inputList = [{"id":"info", "value":value, "isButton":false}]
                 }
             },
             deep: true,
@@ -74,7 +56,7 @@ export default {
     },
     emits: ['closeSelectEvent'],
     components: {
-        ExitButton, TextInfoConatiner, DataContainer
+        ExitButton, TextInfoConatiner, ExamDataContainer
     },
 
     methods: {
@@ -82,26 +64,28 @@ export default {
             this.$emit('closeSelectEvent')
         },
         addParams(event) {
-            if (['Понедельник','Вторник','Среда','Четверг',
-                'Пятница','Суббота','Воскресенье'].includes(event.innerHTML)) {
-                this.weekday = event.innerHTML
-            } else {
-                this.communityValue = event.innerHTML
-                this.communityID = event.id
-            }
+            console.log(event)
+            this.communityValue = event.innerHTML
+            this.communityID = event.id
         },
         chooseTitle(cardID) {
             if (cardID == 'group') {
                 this.inputList = [{"id":"info", "value":'Выберите группу', "isButton":false}]
             } else if (cardID == 'teacher') {
                 this.inputList = [{"id":"info", "value":'Выберите преподавателя', "isButton":false}]
+            } else if (cardID == 'exam') {
+                this.inputList = [
+                    {"id":"teacher", "value":'Преподаватель', "isButton":true}, 
+                    {"id":"group", "value":'Группа', "isButton":true}
+                ]
             }
         },
         buttonClick(id) {
-            if (id == 'weekday') {
-                this.weekday = ''
-                this.inputList = [{"id":"community", "value":this.communityValue, "isButton":false}]
-            }
+            if (['group', 'teacher'].includes(id)) {
+                this.communityType = id
+                this.chooseTitle(id)
+            } 
+            console.log(id)
         }
     }
 }
