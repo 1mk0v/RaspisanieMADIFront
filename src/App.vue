@@ -9,6 +9,11 @@
       v-else-if="['teacher', 'group'].includes(currentCard)"
       :card-i-d="currentCard"
       @closeSelectEvent="closeSelectTab"></SelectContainer>
+    <AuditoriumsSelectContainer
+      v-else-if="currentCard == 'auditorium'"
+      :card-i-d="currentCard"
+      @closeSelectEvent="closeSelectTab">
+    </AuditoriumsSelectContainer>
     <ExamSelectContainer v-else
       :card-i-d="currentCard"
       @close-select-event="closeSelectTab">
@@ -23,6 +28,7 @@ import GlassmorphHeader from './components/Header/GlassmorphHeader.vue';
 import MenuContainer from './components/Containers/MenuContainer.vue';
 import SelectContainer from './components/Containers/SelectContainer.vue';
 import ExamSelectContainer from './components/Containers/Exam/ExamSelectContainer.vue';
+import AuditoriumsSelectContainer from './components/Containers/Auditoriums/AuditoriumsSelectContainer.vue';
 
 export default {
     data() {
@@ -36,7 +42,8 @@ export default {
     GlassmorphHeader,
     MenuContainer,
     SelectContainer,
-    ExamSelectContainer
+    ExamSelectContainer,
+    AuditoriumsSelectContainer
 },
   methods: {
     closeSelectTab() {

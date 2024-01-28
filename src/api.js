@@ -25,6 +25,11 @@ class API {
         const res = await fetch(`${this.examHost}/${id}`);
         return this._getResponse(res);
     }
+
+    async getFreeAuditoriums() {
+        const res = await fetch(`${this.host}/auditoriums/asu/free`);
+        return this._getResponse(res)
+    }
 }
 
 export { API }

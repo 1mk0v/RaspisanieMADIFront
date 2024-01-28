@@ -8,6 +8,7 @@
                 v-for="element in this.inputList" 
                 :customText="element.value"
                 :isButton="element.isButton"
+                customStyles="background: #0286FF"
                 :id="element.id"
                 @buttonClickEvent="buttonClick" 
                 :key="element">

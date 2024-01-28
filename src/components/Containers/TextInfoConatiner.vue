@@ -1,12 +1,11 @@
 <template>
     <div v-if="this.isButton"
-        :styles="this.customStyles"
+        :style="this.customStyles"
         id="text-container"
         @click="clickButton">
         <span style="text-align: center;">{{ customText }}</span>
     </div>
     <div v-else
-        :styles="this.customStyles"
         id="text-container">
         <span style="text-align: center;">{{ customText }}</span>
     </div>
