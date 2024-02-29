@@ -17,7 +17,7 @@ export default {
   name: 'WeatherCard',
   props: {
     title: String,
-    value: String,
+    value: Number,
     unit: String
   }
 }

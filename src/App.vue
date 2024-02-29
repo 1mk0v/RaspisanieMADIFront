@@ -16,10 +16,13 @@
               Расписание экзаменов
             </ScheduleButtons>
           </div>
-          <div class='glassmorph-container' id="weather">
+          <div class='glassmorph-container' id="weather"
+            style="display: flex; justify-content: center; flex-direction: column; 
+            height: -webkit-fill-available;">
             <WeatherInfo></WeatherInfo>
           </div>
-          <div id="quotes">
+          <div class='glassmorph-container' id="quotes">
+            <QuotesApp></QuotesApp>
           </div>
         </div>
     </div>
@@ -32,6 +35,8 @@ import GlassmorphHeader from './components/Header/GlassmorphHeader.vue';
 import Auditoriums from './components/Auditoriums/Auditoriums.vue';
 import ScheduleButtons from './components/Buttons/ScheduleButtons.vue'
 import WeatherInfo from './components/Weather/WeatherInfo.vue'
+import QuotesApp from './components/Quotes/QuotesApp.vue'
+
 
 export default {
     data() {
@@ -45,7 +50,8 @@ export default {
     GlassmorphHeader,
     Auditoriums,
     ScheduleButtons,
-    WeatherInfo
+    WeatherInfo,
+    QuotesApp
   },
   methods: {
     }

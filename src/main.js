@@ -9,10 +9,10 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 
 import { faLocationDot, faDoorClosed, faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons'
-import { faCalendar, faUser } from '@fortawesome/free-regular-svg-icons'
+import { faCalendar, faUser, faComment } from '@fortawesome/free-regular-svg-icons'
 
 
-library.add(faCalendar, faUser, faLocationDot, faDoorClosed, faArrowUp, faArrowDown)
+library.add(faCalendar, faUser, faLocationDot, faDoorClosed, faArrowUp, faArrowDown, faComment)
 
 
 createApp(App)
