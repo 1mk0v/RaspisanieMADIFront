@@ -1,15 +1,18 @@
+import "bootstrap/dist/css/bootstrap.css"
 import { createApp } from 'vue'
 import App from './App.vue'
+
+// import './assets/styles/main.sass'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 
-import { faLocationDot } from '@fortawesome/free-solid-svg-icons'
+import { faLocationDot, faDoorClosed, faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons'
 import { faCalendar, faUser } from '@fortawesome/free-regular-svg-icons'
 
 
-library.add(faCalendar, faUser, faLocationDot)
+library.add(faCalendar, faUser, faLocationDot, faDoorClosed, faArrowUp, faArrowDown)
 
 
 createApp(App)

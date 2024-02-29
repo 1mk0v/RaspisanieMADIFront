@@ -2,33 +2,36 @@
 <template>
   <div id="main-container">
     <GlassmorphHeader></GlassmorphHeader>
-    <MenuContainer 
-      v-if="menuView"
-      @buttonClickEvent="changeCurrentTab"></MenuContainer>
-    <SelectContainer 
-      v-else-if="['teacher', 'group'].includes(currentCard)"
-      :card-i-d="currentCard"
-      @closeSelectEvent="closeSelectTab"></SelectContainer>
-    <AuditoriumsSelectContainer
-      v-else-if="currentCard == 'auditorium'"
-      :card-i-d="currentCard"
-      @closeSelectEvent="closeSelectTab">
-    </AuditoriumsSelectContainer>
-    <ExamSelectContainer v-else
-      :card-i-d="currentCard"
-      @close-select-event="closeSelectTab">
-    </ExamSelectContainer>
-
+    <div id="content-container">
+        <Auditoriums></Auditoriums>
+        <div id="info-container">
+          <div id="buttons-container" class="glassmorph-container">
+            <ScheduleButtons>
+              Расписание группы
+            </ScheduleButtons>
+            <ScheduleButtons>
+              Расписание преподавателей
+            </ScheduleButtons>
+            <ScheduleButtons>
+              Расписание экзаменов
+            </ScheduleButtons>
+          </div>
+          <div class='glassmorph-container' id="weather">
+            <WeatherInfo></WeatherInfo>
+          </div>
+          <div id="quotes">
+          </div>
+        </div>
+    </div>
   </div>
 </template>
 
 
 <script>
 import GlassmorphHeader from './components/Header/GlassmorphHeader.vue';
-import MenuContainer from './components/Containers/MenuContainer.vue';
-import SelectContainer from './components/Containers/SelectContainer.vue';
-import ExamSelectContainer from './components/Containers/Exam/ExamSelectContainer.vue';
-import AuditoriumsSelectContainer from './components/Containers/Auditoriums/AuditoriumsSelectContainer.vue';
+import Auditoriums from './components/Auditoriums/Auditoriums.vue';
+import ScheduleButtons from './components/Buttons/ScheduleButtons.vue'
+import WeatherInfo from './components/Weather/WeatherInfo.vue'
 
 export default {
     data() {
@@ -40,20 +43,12 @@ export default {
     name: 'App',
     components: {
     GlassmorphHeader,
-    MenuContainer,
-    SelectContainer,
-    ExamSelectContainer,
-    AuditoriumsSelectContainer
-},
+    Auditoriums,
+    ScheduleButtons,
+    WeatherInfo
+  },
   methods: {
-    closeSelectTab() {
-      this.menuView = true
-    },
-    changeCurrentTab(id) {
-      this.menuView = false
-      this.currentCard = id
     }
-  }
   }
 </script>
 
@@ -66,21 +61,56 @@ export default {
   right: 0;
   left: 0;
   display: flex;
-  padding: 50px;
+  padding: 25px;
   justify-content: space-between;
   align-items: flex-start;
   color: #fff;
-  font-size: 24px;
-  font-weight: bold;
+  font-size: 16px;
+}
+.glassmorph-container {
+  border-radius: 25px;
+  padding: 25px;
+  background: linear-gradient(113deg, rgba(154, 154, 154, 0.40) 99.99%, rgba(0, 0, 0, 0.00) 100%);
+  backdrop-filter: blur(10px); 
 }
 #main-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 25px;
+  gap: 10px;
   flex: 1 0 0;
   align-self: stretch;
   box-sizing: border-box;
   position: relative;
+}
+#content-container {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  gap:10px;
+}
+#info-container {
+  width: inherit;
+  display: flex;
+  flex-direction: column;
+  gap:10px;
+}
+#buttons-container{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  border-radius: 25px;
+  gap: 25px;
+}
+.title {
+  display: flex;
+  height: fit-content;
+  gap: 10px;
+  justify-content: space-around;
+}
+.ico {
+  align-self:center
 }
 </style>

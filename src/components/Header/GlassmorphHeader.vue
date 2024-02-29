@@ -1,9 +1,11 @@
 <template>
-  <div style="width: 100%;">
-    <div id='header'>
-      <div class='headerData' style="text-align: left;">{{ weekday}}</div>
-      <div class='headerData' style="text-align: center;">{{ date }}</div>
-      <div class='headerData' style="text-align: right;">{{ timer }}</div>
+  <div id="header-container">
+    <div style="padding: 10px 0px;">
+      <div id='header'>
+        <div style="text-align: left;">{{ weekday}}</div>
+        <div style="text-align: center;">{{ date }}</div>
+        <div style="text-align: right;">{{ timer }}</div>
+      </div>
     </div>
   </div>
 </template>
@@ -62,21 +64,19 @@ export default {
    
    
 <style scoped>
+  #header-container {
+    width: 100%; 
+    border-radius: 25px;
+    background: linear-gradient(113deg, rgba(154, 154, 154, 0.40) 99.99%, rgba(0, 0, 0, 0.00) 100%);
+    backdrop-filter: blur(10px); 
+  }
   #header {
     display: flex;
-    padding: 22px 44px;
+    padding: 10px 25px;
     justify-content: space-between;
     align-items: center;
-    border-radius: 50px;
-    background: linear-gradient(113deg, rgba(154, 154, 154, 0.40) 99.99%, rgba(0, 0, 0, 0.00) 100%);
-    backdrop-filter: blur(10px);
-  }
-  .headerData {
-    display: flex;
-    width: 11.875rem;
-    height: 2.875rem;
-    flex-direction: column;
-    justify-content: center;
+    font-size: 20px;
+    font-weight: bold;
   }
 </style>
    
