@@ -17,8 +17,7 @@
             </ScheduleButtons>
           </div>
           <div class='glassmorph-container' id="weather"
-            style="display: flex; justify-content: center; flex-direction: column; 
-            height: -webkit-fill-available;">
+            style="display: flex; flex: auto; justify-content: center; flex-direction: column; ">
             <WeatherInfo></WeatherInfo>
           </div>
           <div class='glassmorph-container' id="quotes">
