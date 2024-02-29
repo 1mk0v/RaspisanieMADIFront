@@ -81,11 +81,11 @@ export default {
   methods: {
     arrowDown() {
       let element = document.querySelector('#overflow-container')
-      element.scrollBy(0,this.scrollValue)
+      element.scrollBy({top: this.scrollValue, behavior: 'smooth'})
     },
     arrowUp() {
       let element = document.querySelector('#overflow-container')
-      element.scrollBy(0,-this.scrollValue)
+      element.scrollBy({top: -this.scrollValue, behavior: 'smooth'})
     }
   }
 }
