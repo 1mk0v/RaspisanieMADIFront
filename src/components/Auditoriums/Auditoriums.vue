@@ -9,6 +9,7 @@
     <div id="content">
       <ControlKeys
         nameId="auditorium-arrow-up"
+        :flexAuto="false"
         @clickComponentEvent="arrowUp">
         <font-awesome-icon icon="fa-solid fa-arrow-up" />
       </ControlKeys>
@@ -25,6 +26,7 @@
         </div>
       <ControlKeys
         nameId="auditorium-arrow-down"
+        :flexAuto="false"
         @clickComponentEvent="arrowDown">
         <font-awesome-icon icon="fa-solid fa-arrow-down" />
       </ControlKeys>

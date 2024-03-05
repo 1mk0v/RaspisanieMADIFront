@@ -8,11 +8,17 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 
-import { faLocationDot, faDoorClosed, faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons'
+import { 
+    faLocationDot, faDoorClosed, faArrowUp, faArrowDown, faHouse, faFilter,
+    
+} from '@fortawesome/free-solid-svg-icons';
+
 import { faCalendar, faUser, faComment } from '@fortawesome/free-regular-svg-icons'
 
 
-library.add(faCalendar, faUser, faLocationDot, faDoorClosed, faArrowUp, faArrowDown, faComment)
+library.add(
+    faCalendar, faUser, faLocationDot, faDoorClosed, faArrowUp, faArrowDown, faComment,
+    faHouse, faFilter)
 
 
 createApp(App)

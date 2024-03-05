@@ -1,5 +1,6 @@
 <template>
-    <div class="key-container" v-on:click="clickEvent">
+    <div class="key-container" v-on:click="clickEvent"
+    :style="{flex: (flexAuto) ? '1 1 auto' : 'none'}">
         <div class="key-content">
             <slot></slot>
         </div>
@@ -9,7 +10,8 @@
   <script>
   export default {
     props:{
-      nameId:String
+      nameId:String,
+      flexAuto:Boolean
     },
     emits:['clickComponentEvent'],
     name: 'ControleKeys',
@@ -29,6 +31,7 @@
       border: 1px solid #fff;
       gap: 25px;
       flex-direction: column;
+      justify-content: center;
       background: rgba(0, 0, 0, 0.30);
     }
     .key-content {
