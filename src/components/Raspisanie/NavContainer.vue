@@ -1,50 +1,57 @@
-
 <template>
-    <div>
-        <div id="buttons-container">
-            <ControlKeys 
-                nameId='button-home'
-                :flexAuto="false"
-                @clickComponentEvent="goToHome">
-                <font-awesome-icon icon="fa-solid fa-house" />
-            </ControlKeys>
-            <ControlKeys
-                :flexAuto="true">
-                {{ title }}
-            </ControlKeys>
-            <ControlKeys
-                :flexAuto="false">
-                <font-awesome-icon icon="fa-solid fa-filter" />
-            </ControlKeys>
-        </div>
+  <div>
+    <div id="buttons-container">
+      <BlockWithData 
+        nameId='button-home'
+        :isButton="true" 
+        @clickComponentEvent="goToHome">
+        <font-awesome-icon icon="fa-solid fa-house" />
+      </BlockWithData>
+      <BlockWithData 
+        nameId='community-title'
+        :flexAuto="true"
+        :isButton="(titleCommunityValue) ? true : false"
+        textAlign="center"
+        textWeight="500"
+        @clickComponentEvent="changeCommunity">
+        {{ titleCommunityValue || defaultTitle }}
+      </BlockWithData>
+      <BlockWithData v-if="weekday"
+        :isButton="true"
+        nameId="weekday-value"
+        textAlign="center"
+        textWeight="500">
+        {{ weekday }}
+      </BlockWithData>
+      <BlockWithData
+        nameId="button-filter">
+        <font-awesome-icon icon="fa-solid fa-filter" />
+      </BlockWithData>
     </div>
+  </div>
 </template>
-  
-  
+
+
 <script>
-import ControlKeys from '../Buttons/ControlKeys.vue';
-// import ScheduleButtons from '../Buttons/ScheduleButtons.vue';
+import BlockWithData from '../DataComponents/BlockWithData.vue'
 
 export default {
-    data() {
-        return {
-        }
+  props: { defaultTitle: String, titleCommunityValue: String, weekday:String },
+  emits: ['goHomeEvent', 'changeCommunityEvent'],
+  name: 'NavContainer',
+  components: {
+    BlockWithData
+  },
+  methods: {
+    goToHome(event) {
+      this.$emit('goHomeEvent', event)
     },
-    props: {title:String},
-    emits: ['goHomeEvent'],
-    name: 'NavContainer',
-    components: {
-        ControlKeys
-        // ScheduleButtons
-    },
-    methods: {
-        goToHome(event) {
-            this.$emit('goHomeEvent', event)
-        }
+    changeCommunity() {
+      this.$emit('changeCommunityEvent', {})
     }
+  }
 }
 </script>
-  
-  
+
+
 <style></style>
-  

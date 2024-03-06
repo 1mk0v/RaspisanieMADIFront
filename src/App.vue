@@ -4,8 +4,7 @@
     <GlassmorphHeader></GlassmorphHeader>
     <KeepAlive>
       <HomePage v-if="currentComponent == 'home'">
-        <ScheduleButtons 
-          v-for="card in menuCards" 
+        <ScheduleButtons v-for="card in menuCards" 
           :nameId="card.id" 
           :key="card.id"
           @clickEvent="clickEventHandler">
@@ -15,13 +14,6 @@
       <RaspisanieContainer v-else-if="currentComponent == 'schedule-group-button'"
         nav-title="Выберите группу"
         @changeTabEvent="clickEventHandler">
-        <ControlKeys 
-          v-for="card in data" 
-          :nameId="card.id" 
-          :key="card.id"
-          @clickEvent="clickEventHandler">
-          {{ card.value }}
-        </ControlKeys>
       </RaspisanieContainer>
       <RaspisanieContainer v-else-if="currentComponent == 'schedule-teacher-button'"
         nav-title="Выберите преподавателя"
@@ -40,106 +32,18 @@
 import GlassmorphHeader from './components/Header/GlassmorphHeader.vue'
 import HomePage from './components/Home/HomeComponent.vue'
 import ScheduleButtons from './components/Buttons/ScheduleButtons.vue'
-import ControlKeys from './components/Buttons/ControlKeys.vue'
 import RaspisanieContainer from './components/Raspisanie/RaspisanieContainer.vue'
 
 
 export default {
     data() {
       return {
-        menuView: true,
         menuCards: [
           {id:"schedule-group-button", value: "Расписание группы"},
           {id:"schedule-teacher-button", value: "Расписание преподавателей"},
           {id:"schedule-exam-button", value: "Расписание экзаменов"}
         ],
-        data: [
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-          {id:0, value:"test"},
-        ],
-        currentComponent: 'home'
+        currentComponent: 'home',
       }
     },
     name: 'App',
@@ -148,12 +52,11 @@ export default {
       ScheduleButtons,
       GlassmorphHeader, 
       RaspisanieContainer,
-      ControlKeys
   },
   methods: {
     clickEventHandler(text) {
       this.currentComponent = text
-    }
+    },
   }
 }
 </script>
@@ -171,8 +74,9 @@ export default {
   justify-content: space-between;
   align-items: flex-start;
   color: #fff;
-  font-size: 16px;
+  font-size: 18px;
 }
+
 #main-container {
   display: flex;
   flex-direction: column;

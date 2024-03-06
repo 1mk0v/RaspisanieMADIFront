@@ -7,35 +7,41 @@
       <div style="font-size: 20px;">Аудитории</div>
     </div>
     <div id="content">
-      <ControlKeys
+      <BlockWithData
         nameId="auditorium-arrow-up"
         :flexAuto="false"
+        :isButton="true"
+        textAlign="center"
         @clickComponentEvent="arrowUp">
         <font-awesome-icon icon="fa-solid fa-arrow-up" />
-      </ControlKeys>
+      </BlockWithData>
         <div id='overflow-container' class="overflow-y-scroll">
           <div id="auditoriums-content">
-            <div 
-              v-for="item in listAuditoriums" 
-              :key="item.value+item.status"
-              id="auditorium-block">
-              <span style="font-weight: 500;">{{ item.value }}</span>
-              <span :style="{color: (item.status) ? '#80FF7E': '#FF6363'}">{{ (item.status) ? 'Свободна': 'Занята' }}</span>
-            </div>
+            <BlockWithData
+              v-for="item in listAuditoriums"
+              :key="item.value+item.status">
+              <div style="display: flex; gap:10px;">
+                <span style="font-weight: 500;">{{ item.value }}</span>
+                <span :style="{color: (item.status) ? '#80FF7E': '#FF6363'}">{{ (item.status) ? 'Свободна': 'Занята' }}</span>
+              </div>
+            </BlockWithData>
           </div>
         </div>
-      <ControlKeys
+      <BlockWithData
         nameId="auditorium-arrow-down"
         :flexAuto="false"
+        :isButton="true"
+        textAlign="center"
         @clickComponentEvent="arrowDown">
         <font-awesome-icon icon="fa-solid fa-arrow-down" />
-      </ControlKeys>
+      </BlockWithData>
     </div>
   </div>
 </template>
    
 <script>
-import ControlKeys from '../Buttons/ControlKeys.vue';
+import BlockWithData from '../DataComponents/BlockWithData.vue'
+// import ControlKeys from '../Buttons/ControlKeys.vue';
 
 export default {
   data() {
@@ -78,7 +84,8 @@ export default {
   },
   name: 'AuditoriumsInfo',
   components: {
-    ControlKeys
+    // ControlKeys,
+    BlockWithData
   },
   methods: {
     arrowDown() {
@@ -109,13 +116,6 @@ export default {
     gap: 10px;
     display: flex;
     flex-direction: column;
-  }
-  #auditorium-block {
-    display: flex;
-    gap:10px;
-    padding: 5px 10px;
-    border-radius: 10px;
-    background: rgba(0, 0, 0, 0.30);
   }
   #content {
     gap: 10px;
