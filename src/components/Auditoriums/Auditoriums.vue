@@ -41,7 +41,6 @@
    
 <script>
 import BlockWithData from '../DataComponents/BlockWithData.vue'
-// import ControlKeys from '../Buttons/ControlKeys.vue';
 
 export default {
   data() {
@@ -84,7 +83,6 @@ export default {
   },
   name: 'AuditoriumsInfo',
   components: {
-    // ControlKeys,
     BlockWithData
   },
   methods: {
