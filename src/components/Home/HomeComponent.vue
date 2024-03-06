@@ -1,20 +1,20 @@
 
 <template>
-    <div id="content-container">
-        <Auditoriums></Auditoriums>
-        <div id="info-container">
-            <div id="buttons-container" class="glassmorph-container">
-                <slot></slot>
-            </div>
-            <div class='glassmorph-container' id="weather"
-                style="display: flex; flex: auto; justify-content: center; flex-direction: column;">
-                <WeatherInfo></WeatherInfo>
-            </div>
-            <div class='glassmorph-container' id="quotes">
-                <QuotesApp></QuotesApp>
-            </div>
-        </div>
+  <div id="content-container">
+    <Auditoriums></Auditoriums>
+    <div id="info-container">
+      <div id="buttons-container" class="glassmorph-container">
+        <slot></slot>
+      </div>
+      <div class='glassmorph-container' id="weather"
+        style="display: flex; flex: auto; justify-content: center; flex-direction: column;">
+        <WeatherInfo></WeatherInfo>
+      </div>
+      <div class='glassmorph-container' id="quotes">
+        <QuotesApp></QuotesApp>
+      </div>
     </div>
+  </div>
 </template>
   
   
@@ -41,10 +41,10 @@ export default {
   
 <style>
 .glassmorph-container {
-    border-radius: 25px;
-    padding: 25px;
-    background: linear-gradient(113deg, rgba(154, 154, 154, 0.40) 99.99%, rgba(0, 0, 0, 0.00) 100%);
-    backdrop-filter: blur(10px);
+  border-radius: 25px;
+  padding: 25px;
+  background: linear-gradient(113deg, rgba(154, 154, 154, 0.40) 99.99%, rgba(0, 0, 0, 0.00) 100%);
+  backdrop-filter: blur(10px);
 }
 
 #main-container {
@@ -60,7 +60,6 @@ export default {
 
 #content-container {
     width: 100%;
-    height: 100%;
     overflow: hidden;
     display: flex;
     flex-direction: row;

@@ -2,28 +2,36 @@
 <template>
   <div id="main-container">
     <GlassmorphHeader></GlassmorphHeader>
-    <KeepAlive>
-      <HomePage v-if="currentComponent == 'home'">
-        <ScheduleButtons v-for="card in menuCards" 
-          :nameId="card.id" 
-          :key="card.id"
-          @clickEvent="clickEventHandler">
-          {{ card.value }}
-        </ScheduleButtons>
-      </HomePage>
-      <RaspisanieContainer v-else-if="currentComponent == 'schedule-group-button'"
+    <Transition name="fade" appear mode="in-out">
+      <KeepAlive>
+        <HomePage v-if="currentComponent == 'home'">
+          <ScheduleButtons v-for="card in menuCards" 
+            :nameId="card.id" 
+            :key="card.id"
+            @clickEvent="clickEventHandler">
+            {{ card.value }}
+          </ScheduleButtons>
+        </HomePage>
+      </KeepAlive>
+    </Transition>
+    <Transition name="fade" appear mode="out-in">
+      <RaspisanieContainer v-if="currentComponent == 'schedule-group-button'"
         nav-title="Выберите группу"
         @changeTabEvent="clickEventHandler">
       </RaspisanieContainer>
-      <RaspisanieContainer v-else-if="currentComponent == 'schedule-teacher-button'"
+    </Transition>
+    <Transition name="fade" appear mode="out-in">
+      <RaspisanieContainer v-if="currentComponent == 'schedule-teacher-button'"
         nav-title="Выберите преподавателя"
         @changeTabEvent="clickEventHandler">
       </RaspisanieContainer>
-      <RaspisanieContainer v-else-if="currentComponent == 'schedule-exam-button'"
+    </Transition>
+    <Transition name="fade" appear mode="out-in">
+      <RaspisanieContainer v-if="currentComponent == 'schedule-exam-button'"
         nav-title="Выберите экзамен"
         @changeTabEvent="clickEventHandler">
       </RaspisanieContainer>
-    </KeepAlive>
+    </Transition>
   </div>
 </template>
 
@@ -86,5 +94,21 @@ export default {
   align-self: stretch;
   box-sizing: border-box;
   position: relative;
+}
+
+.fade-enter-active {
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.fade-leave-active {
+  transition: all 0.3s ease;
+  position: absolute;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  filter: blur(10px);
+  transform: scale(0.9);
 }
 </style>
