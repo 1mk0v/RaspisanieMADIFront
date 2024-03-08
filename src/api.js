@@ -1,11 +1,11 @@
 class API {
 
     _getResponse(res) {
-        return res.ok ? res.json() : Promise.reject()
+        return res.ok ? res.json() : Promise.reject(res.status)
     }
 
     constructor(path) {
-        this.host = `http://127.0.0.1:8888`
+        this.host = `http://192.168.0.152:8888`
         this.communityHost = this.host + path
         this.scheduleHost = this.host + '/schedule' + path
         this.examHost = this.host + '/exam' + path
@@ -31,6 +31,5 @@ class API {
         return this._getResponse(res)
     }
 }
-
 
 export { API }

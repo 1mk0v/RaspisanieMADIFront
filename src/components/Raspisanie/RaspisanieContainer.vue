@@ -21,10 +21,10 @@
             :nameId="card.id" 
             :key="card.id" 
             :flexAuto="true" 
-            :isButton="true"
-            textAlign="left" 
+            :isButton="(card.value) ? true : false"
+            textAlign="left"
             @clickComponentEvent="chooseCommunityHandler">
-            {{ card.value }}
+            {{ card.value || 'Мы не знаем что это за группа 🤔' }}
           </BlockWithData>
         </div>
       </div>
@@ -35,7 +35,8 @@
         <font-awesome-icon icon="fa-solid fa-arrow-down" />
       </BlockWithData>
     </div>
-    <div id="content" 
+    <div id="content" v-else-if="errorImg"><img style="height: 100%;" :src="errorImg"></div>
+    <div id="content"
       v-else-if="(currentCommunity && currentCommunity.value && scheduleList && !dateValue)">
       <BlockWithData v-for="(value, index) in availableDates"
         :nameId="index" 
@@ -82,7 +83,8 @@ export default {
       dateValue: '',
       currentCommunity: {},
       communityList: [],
-      scheduleList: []
+      scheduleList: [],
+      errorImg: ''
     }
   },
   emits: ['changeTabEvent'],
@@ -98,21 +100,18 @@ export default {
     ScheduleBlock
   },
   created() {
-    this.getCommunityFunction().then(
-      (data) => {
-        this.communityList = data.data
-      }
-    )
+    this.getCommunityFunction()
+      .then((data) => { this.communityList = data.data })
+      .catch((status) => { this.errorImg = `https://http.cat/${status}` });
   },
   watch: {
     currentCommunity: {  
       handler(value) {
         if (value.value) {
-          this.getScheduleFunction(value.id).then(
-            (data) => {
-              this.scheduleList = data.data
-            }
-          )
+          this.getScheduleFunction(value.id)
+            .then((data) => { this.scheduleList = data.data })
+            .catch((status) => { 
+              this.errorImg = `https://http.cat/${status}` })
         }
       },
       deep: true,
@@ -132,7 +131,10 @@ export default {
       this.$emit('changeTabEvent', 'home')
     },
     chooseCommunityHandler(object) {
-      if (JSON.stringify(object) == JSON.stringify({})) { this.dateValue = ''}
+      if (JSON.stringify(object) == JSON.stringify({})) { 
+        this.errorImg = ''
+        this.dateValue = ''
+      }
       this.currentCommunity = object
     },
     chooseDateHandler(object) {
