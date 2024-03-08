@@ -2,7 +2,7 @@
 <template>
   <div id="main-container">
     <GlassmorphHeader></GlassmorphHeader>
-    <Transition name="fade" appear mode="in-out">
+    <!-- <Transition appear mode="in-out"> -->
       <KeepAlive>
         <HomePage v-if="currentComponent == 'home'">
           <ScheduleButtons v-for="card in menuCards" 
@@ -13,25 +13,32 @@
           </ScheduleButtons>
         </HomePage>
       </KeepAlive>
-    </Transition>
-    <Transition name="fade" appear mode="out-in">
+    <!-- </Transition> -->
+    <!-- <Transition appear mode="out-in"> -->
       <RaspisanieContainer v-if="currentComponent == 'schedule-group-button'"
         nav-title="Выберите группу"
+        :scroll-value="scrollValue"
+        :getCommunityFunction="getGroupList"
+        :get-schedule-function="getGroupScheduleList"
         @changeTabEvent="clickEventHandler">
       </RaspisanieContainer>
-    </Transition>
-    <Transition name="fade" appear mode="out-in">
+    <!-- </Transition> -->
+    <!-- <Transition appear mode="out-in"> -->
       <RaspisanieContainer v-if="currentComponent == 'schedule-teacher-button'"
         nav-title="Выберите преподавателя"
+        :scroll-value="scrollValue"
+        :getCommunityFunction="getTeacherList"
+        :get-schedule-function="getTeacherScheduleList"
         @changeTabEvent="clickEventHandler">
       </RaspisanieContainer>
-    </Transition>
-    <Transition name="fade" appear mode="out-in">
+    <!-- </Transition> -->
+    <!-- <Transition appear mode="out-in"> -->
       <RaspisanieContainer v-if="currentComponent == 'schedule-exam-button'"
         nav-title="Выберите экзамен"
+        :scroll-value="scrollValue"
         @changeTabEvent="clickEventHandler">
       </RaspisanieContainer>
-    </Transition>
+    <!-- </Transition> -->
   </div>
 </template>
 
@@ -41,11 +48,13 @@ import GlassmorphHeader from './components/Header/GlassmorphHeader.vue'
 import HomePage from './components/Home/HomeComponent.vue'
 import ScheduleButtons from './components/Buttons/ScheduleButtons.vue'
 import RaspisanieContainer from './components/Raspisanie/RaspisanieContainer.vue'
+import { API } from './api.js'
 
 
 export default {
     data() {
       return {
+        scrollValue: 200,
         menuCards: [
           {id:"schedule-group-button", value: "Расписание группы"},
           {id:"schedule-teacher-button", value: "Расписание преподавателей"},
@@ -65,7 +74,23 @@ export default {
     clickEventHandler(text) {
       this.currentComponent = text
     },
-  }
+    getGroupList: async function() {
+      let api = new API('/group');
+      return await api.get();
+    },
+    getGroupScheduleList: async function(groupId) {
+      let api = new API('/group');
+      return await api.getSchedule(groupId);
+    },
+    getTeacherList: async function() {
+      let api = new API('/teacher');
+      return await api.get();
+    },
+    getTeacherScheduleList: async function(teacherId) {
+      let api = new API('/teacher');
+      return await api.getSchedule(teacherId);
+    }
+  },
 }
 </script>
 

@@ -2,9 +2,11 @@
   <div id="main-container" class="glassmorph-container">
     <NavContainer style="width: 100%" 
       :defaultTitle="navTitle"
-      :titleCommunityValue="currentCommunity && currentCommunity.value" 
+      :titleCommunityValue="currentCommunity && currentCommunity.value"
+      :weekday="dateValue"
       @goHomeEvent="goHomeEventHandler"
-      @changeCommunityEvent="chooseCommunityHandler">
+      @changeCommunityEvent="chooseCommunityHandler"
+      @changeDateEvent="chooseDateHandler">
     </NavContainer>
     <div id="content" v-if="!(currentCommunity && currentCommunity.value)">
       <BlockWithData nameId="raspisanie-arrow-up" 
@@ -13,9 +15,9 @@
         @clickComponentEvent="arrowUp">
         <font-awesome-icon icon="fa-solid fa-arrow-up" />
       </BlockWithData>
-      <div id='overflow-container' class="overflow-y-scroll">
+      <div id='overflow-container' class="overflow-y-scroll" v-if="communityList">
         <div id="block-content">
-          <BlockWithData v-for="card in data" 
+          <BlockWithData v-for="card in communityList" 
             :nameId="card.id" 
             :key="card.id" 
             :flexAuto="true" 
@@ -33,8 +35,37 @@
         <font-awesome-icon icon="fa-solid fa-arrow-down" />
       </BlockWithData>
     </div>
+    <div id="content" 
+      v-else-if="(currentCommunity && currentCommunity.value && scheduleList && !dateValue)">
+      <BlockWithData v-for="(value, index) in availableDates"
+        :nameId="index" 
+        :key="value+index" 
+        :isButton="true"
+        textAlign="left"
+        @clickComponentEvent="chooseDateHandler">
+        {{ value }}
+      </BlockWithData>
+    </div>
     <div id="content" v-else>
-
+      <BlockWithData nameId="raspisanie-arrow-up" 
+        :is-button="true" 
+        textAlign="center" 
+        @clickComponentEvent="arrowUp">
+        <font-awesome-icon icon="fa-solid fa-arrow-up" />
+      </BlockWithData>
+      <div id='overflow-container' class="overflow-y-scroll" v-if="communityList">
+        <div id="block-content">
+          <ScheduleBlock v-for="(data, index) in choosedSchedule" :key="index"
+            :lessonInfo="data">
+          </ScheduleBlock>
+        </div>
+      </div>
+      <BlockWithData nameId="raspisanie-arrow-down" 
+        :is-button="true" 
+        textAlign="center"
+        @clickComponentEvent="arrowDown">
+        <font-awesome-icon icon="fa-solid fa-arrow-down" />
+      </BlockWithData>
     </div>
   </div>
 </template>
@@ -42,65 +73,51 @@
 <script>
 import BlockWithData from '../DataComponents/BlockWithData.vue'
 import NavContainer from './NavContainer.vue';
+import ScheduleBlock from '../DataComponents/ScheduleBlock.vue'
 
 export default {
+  name: 'RaspisanieContainer',
   data() {
     return {
-      scrollValue: 200,
+      dateValue: '',
       currentCommunity: {},
-      data: [
-        {"id": 9101, "value": "2бЛ 3"},
-      {"id": 9120, "value": "2бЛМТ"},
-      {"id": 9117, "value": "2бМО 1"},
-      {"id": 9118, "value": "2бМО 2"},
-      {"id": 9285, "value": "2бОД 1"},
-      {"id": 9286, "value": "2бОД 2"},
-      {"id": 9420, "value": "2бПМ"},
-      {"id": 9468, "value": "2бСА"},
-      {"id": 9229, "value": "2бСТ"},
-      {"id": 9171, "value": "2бСТР1"},
-      {"id": 9173, "value": "2бСТР2"},
-      {"id": 9176, "value": "2бСТР3"},
-      {"id": 9175, "value": "2бСТР4"},
-      {"id": 9174, "value": "2бСТР5"},
-      {"id": 9172, "value": "2бСТР6"},
-      {"id": 9177, "value": "2бСТР7"},
-      {"id": 9178, "value": "2бСТР8"},
-      {"id": 9227, "value": "2бТВ"},
-      {"id": 9418, "value": "2бТТ"},
-      {"id": 9287, "value": "2бУП 1"},
-      {"id": 9476, "value": "2бУП 2"},
-      {"id": 9119, "value": "2бУПР"},
-      {"id": 9289, "value": "2бУТП1"},
-      {"id": 9290, "value": "2бУТП2"},
-      {"id": 9226, "value": "2бЦУС"},
-      {"id": 9338, "value": "2бЭМТ"},
-      {"id": 9339, "value": "2бЭС 1"},
-      {"id": 9340, "value": "2бЭС 2"},
-      {"id": 9341, "value": "2бЭТ"},
-      {"id": 9426, "value": "2ВА"},
-      {"id": 9465, "value": "2ВбИТС"},
-      {"id": 9121, "value": "2ВбМО"},
-      {"id": 9292, "value": "2ВбОД"},
-      {"id": 9293, "value": "2ВбУП"},
-      {"id": 9342, "value": "2ВбЭС"},
-      {"id": 9345, "value": "2ВмЭКР"},
-      {"id": 9126, "value": "2ВТД"},
-      {"id": 9231, "value": "2ДМ 1"},
-      {"id": 9232, "value": "2ДМ 2"},
-      {"id": 9373, "value": "2КМ 1"},
-      {"id": 9375, "value": "2КМ 2"},
-      ],
+      communityList: [],
+      scheduleList: []
     }
   },
-  name: 'RaspisanieContainer',
   emits: ['changeTabEvent'],
   props: {
     navTitle: String,
+    scrollValue: Number,
+    getCommunityFunction: Function,
+    getScheduleFunction: Function
   },
   components: {
     NavContainer,
-    BlockWithData
+    BlockWithData,
+    ScheduleBlock
+  },
+  created() {
+    this.getCommunityFunction().then(
+      (data) => {
+        this.communityList = data.data
+      }
+    )
+  },
+  watch: {
+    currentCommunity: {  
+      handler(value) {
+        if (value.value) {
+          this.getScheduleFunction(value.id).then(
+            (data) => {
+              this.scheduleList = data.data
+            }
+          )
+        }
+      },
+      deep: true,
+      immediate: true
+    }
   },
   methods: {
     arrowDown() {
@@ -115,7 +132,31 @@ export default {
       this.$emit('changeTabEvent', 'home')
     },
     chooseCommunityHandler(object) {
+      if (JSON.stringify(object) == JSON.stringify({})) { this.dateValue = ''}
       this.currentCommunity = object
+    },
+    chooseDateHandler(object) {
+      this.dateValue = object.value
+    }
+  },
+  computed: {
+    availableDates() {
+      let weekdays = []
+      if (this.scheduleList) {
+        for (let lesson of this.scheduleList) {
+          if (lesson.weekday && !weekdays.includes(lesson.weekday)) { weekdays.push(lesson.weekday) } 
+        }
+      }
+      return weekdays
+    },
+    choosedSchedule() {
+      let schedule = []
+      if (this.scheduleList) {
+        for (let lesson of this.scheduleList) {
+          if (lesson.weekday == this.dateValue) { schedule.push(lesson) }
+        }
+      }
+      return schedule
     }
   }
 }
@@ -144,6 +185,6 @@ export default {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 </style>

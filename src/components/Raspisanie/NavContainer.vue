@@ -20,7 +20,8 @@
         :isButton="true"
         nameId="weekday-value"
         textAlign="center"
-        textWeight="500">
+        textWeight="500"
+        @clickComponentEvent="changeDate">
         {{ weekday }}
       </BlockWithData>
       <BlockWithData
@@ -37,7 +38,7 @@ import BlockWithData from '../DataComponents/BlockWithData.vue'
 
 export default {
   props: { defaultTitle: String, titleCommunityValue: String, weekday:String },
-  emits: ['goHomeEvent', 'changeCommunityEvent'],
+  emits: ['goHomeEvent', 'changeCommunityEvent', 'changeDateEvent'],
   name: 'NavContainer',
   components: {
     BlockWithData
@@ -48,6 +49,9 @@ export default {
     },
     changeCommunity() {
       this.$emit('changeCommunityEvent', {})
+    },
+    changeDate() {
+      this.$emit('changeDateEvent', '')
     }
   }
 }

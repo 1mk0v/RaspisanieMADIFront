@@ -49,8 +49,11 @@ export default {
   created() {
     this.timerIntervalId = setInterval(() => {
         let date = new Date()
+        let startDate = new Date(date.getFullYear(), 0, 1);
+        let days = Math.floor((date - startDate) / (24 * 60 * 60 * 1000));
+        let weekNumber = Math.ceil(days / 7);
         this.weekday = this.weekdays[date.getDay()]
-        this.date = `${this.monthes[date.getMonth()]}, ${date.getDate()}`
+        this.date = (weekNumber%2) ? 'Знаменатель' : 'Числитель'
         let minutes = date.getMinutes()
         if (minutes < 10) {
           minutes = "0"+`${minutes}`

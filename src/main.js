@@ -10,10 +10,11 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 import { 
     faLocationDot, faDoorClosed, faArrowUp, faArrowDown, faHouse, faFilter,
+    faUser
     
 } from '@fortawesome/free-solid-svg-icons';
 
-import { faCalendar, faUser, faComment } from '@fortawesome/free-regular-svg-icons'
+import { faCalendar, faComment } from '@fortawesome/free-regular-svg-icons'
 
 
 library.add(
