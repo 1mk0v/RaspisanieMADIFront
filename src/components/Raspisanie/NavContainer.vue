@@ -1,5 +1,4 @@
 <template>
-  <div>
     <div id="buttons-container">
       <BlockWithData 
         nameId='button-home'
@@ -29,7 +28,6 @@
         <font-awesome-icon icon="fa-solid fa-filter" />
       </BlockWithData>
     </div>
-  </div>
 </template>
 
 

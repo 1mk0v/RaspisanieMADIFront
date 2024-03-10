@@ -37,7 +37,7 @@
     </div>
     <div id="content" v-else-if="errorImg"><img style="height: 100%;" :src="errorImg"></div>
     <div id="content"
-      v-else-if="(currentCommunity && currentCommunity.value && scheduleList && !dateValue)">
+      v-else-if="(currentCommunity && currentCommunity.value && scheduleList && (availableDates.length > 0) && !dateValue )">
       <BlockWithData v-for="(value, index) in availableDates"
         :nameId="index" 
         :key="value+index" 
@@ -109,7 +109,8 @@ export default {
       handler(value) {
         if (value.value) {
           this.getScheduleFunction(value.id)
-            .then((data) => { this.scheduleList = data.data })
+            .then((data) => {
+              this.scheduleList = data.data })
             .catch((status) => { 
               this.errorImg = `https://http.cat/${status}` })
         }
@@ -146,7 +147,7 @@ export default {
       let weekdays = []
       if (this.scheduleList) {
         for (let lesson of this.scheduleList) {
-          if (lesson.weekday && !weekdays.includes(lesson.weekday)) { weekdays.push(lesson.weekday) } 
+          if (lesson.weekday && !weekdays.includes(lesson.weekday)) { weekdays.push(lesson.weekday) }
         }
       }
       return weekdays
@@ -158,7 +159,7 @@ export default {
           if (lesson.weekday == this.dateValue) { schedule.push(lesson) }
         }
       }
-      return schedule
+      return (schedule.length > 0) ? schedule : this.scheduleList
     }
   }
 }

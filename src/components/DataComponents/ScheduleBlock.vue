@@ -1,9 +1,9 @@
 <template>
   <div class="key-container">
     <div id="time" v-if="time" style="text-align:center">
-      <div>{{ time.start.slice(0, -3) }}</div>
+      <div>{{ time.start && time.start.slice(0, -3) }}</div>
       <div>-</div>
-      <div>{{ time.end.slice(0, -3) }}</div>
+      <div>{{ time.end && time.end.slice(0, -3) || '🤷‍♀️'}}</div>
     </div>
     <div id="line"></div>
     <div id="schedule">

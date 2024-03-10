@@ -1,10 +1,11 @@
 
 <template>
   <div id="main-container">
-    <GlassmorphHeader></GlassmorphHeader>
+    <GlassmorphHeader v-if="isGreaterMinWidth"></GlassmorphHeader>
     <!-- <Transition appear mode="in-out"> -->
       <KeepAlive>
-        <HomePage v-if="currentComponent == 'home'">
+        <HomePage v-if="currentComponent == 'home'"
+          :isGreaterMinWidth="isGreaterMinWidth">
           <ScheduleButtons v-for="card in menuCards" 
             :nameId="card.id" 
             :key="card.id"
@@ -33,9 +34,41 @@
       </RaspisanieContainer>
     <!-- </Transition> -->
     <!-- <Transition appear mode="out-in"> -->
-      <RaspisanieContainer v-if="currentComponent == 'schedule-exam-button'"
-        nav-title="Выберите экзамен"
+      <div id="buttons-container" class="glassmorph-container"
+        v-if="currentComponent == 'schedule-exam-button'">
+        <BlockWithData
+          :is-button="true"
+          name-id="home"
+          @click-component-event="clickEventHandler">
+          <font-awesome-icon icon="fa-solid fa-house" />
+        </BlockWithData>
+        <BlockWithData
+          name-id="group-exam-button"  
+          :is-button="true"
+          :flex-auto="true"
+          @click-component-event="clickEventHandler">
+          Группа
+        </BlockWithData>
+        <BlockWithData
+          name-id="teacher-exam-button"
+          :is-button="true"
+          :flex-auto="true"
+          @click-component-event="clickEventHandler">
+          Преподаватель
+        </BlockWithData>
+      </div>
+      <RaspisanieContainer v-if="currentComponent == 'group-exam-button'"
+        nav-title="Выберите группу"
         :scroll-value="scrollValue"
+        :get-community-function="getGroupList"
+        :get-schedule-function="getGroupExamList"
+        @changeTabEvent="clickEventHandler">
+      </RaspisanieContainer>
+      <RaspisanieContainer v-if="currentComponent == 'teacher-exam-button'"
+        nav-title="Выберите преподавателя"
+        :scroll-value="scrollValue"
+        :get-community-function="getTeacherList"
+        :get-schedule-function="getTeacherExamList"
         @changeTabEvent="clickEventHandler">
       </RaspisanieContainer>
     <!-- </Transition> -->
@@ -48,6 +81,7 @@ import GlassmorphHeader from './components/Header/GlassmorphHeader.vue'
 import HomePage from './components/Home/HomeComponent.vue'
 import ScheduleButtons from './components/Buttons/ScheduleButtons.vue'
 import RaspisanieContainer from './components/Raspisanie/RaspisanieContainer.vue'
+import BlockWithData from './components/DataComponents/BlockWithData.vue'
 import { API } from './api.js'
 
 
@@ -69,9 +103,14 @@ export default {
       ScheduleButtons,
       GlassmorphHeader, 
       RaspisanieContainer,
+      BlockWithData
   },
   methods: {
     clickEventHandler(text) {
+      if (text && text.id) {
+        text = text.id
+        console.log(text.id)
+      }
       this.currentComponent = text
     },
     getGroupList: async function() {
@@ -82,6 +121,10 @@ export default {
       let api = new API('/group');
       return await api.getSchedule(groupId);
     },
+    getGroupExamList: async function(groupId) {
+      let api = new API('/group');
+      return await api.getExam(groupId)
+    },
     getTeacherList: async function() {
       let api = new API('/teacher');
       return await api.get();
@@ -89,8 +132,17 @@ export default {
     getTeacherScheduleList: async function(teacherId) {
       let api = new API('/teacher');
       return await api.getSchedule(teacherId);
+    },
+    getTeacherExamList: async function(teacherId) {
+      let api = new API('/teacher');
+      return await api.getExam(teacherId);
     }
   },
+  computed: {
+    isGreaterMinWidth() {
+        return window.innerWidth >= 700 
+      }
+  }
 }
 </script>
 

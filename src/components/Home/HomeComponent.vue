@@ -1,16 +1,23 @@
 
 <template>
   <div id="content-container">
-    <Auditoriums></Auditoriums>
+    <Auditoriums v-if="isGreaterMinWidth"></Auditoriums>
     <div id="info-container">
-      <div id="buttons-container" class="glassmorph-container">
+      <div id="buttons-container" class="glassmorph-container"
+        :style="{
+          flexDirection: (isGreaterMinWidth) ? 'row' : 'column',
+          textAlign: (isGreaterMinWidth) ? 'left' : 'center' 
+        }
+        ">
         <slot></slot>
       </div>
       <div class='glassmorph-container' id="weather"
-        style="display: flex; flex: auto; justify-content: center; flex-direction: column;">
+        style="display: flex; flex: auto; justify-content: center; flex-direction: column;"
+        v-if="isGreaterMinWidth">
         <WeatherInfo></WeatherInfo>
       </div>
-      <div class='glassmorph-container' id="quotes">
+      <div class='glassmorph-container' id="quotes"
+        v-if="isGreaterMinWidth">
         <QuotesApp></QuotesApp>
       </div>
     </div>
@@ -25,16 +32,23 @@ import QuotesApp from '../Quotes/QuotesApp.vue'
 
 
 export default {
-    data() {
-        return {
-        }
-    },
-    name: 'HomePage',
-    components: {
-        Auditoriums,
-        WeatherInfo,
-        QuotesApp
-    },
+  name: 'HomePage',
+  data(){
+    return {
+      columnStyle: {
+        flexDirection: 'column',
+        textAlign: 'center'
+      }
+    }
+  },
+  props: {
+    isGreaterMinWidth: Boolean
+  },
+  components: {
+      Auditoriums,
+      WeatherInfo,
+      QuotesApp
+  }
 }
 </script>
   
