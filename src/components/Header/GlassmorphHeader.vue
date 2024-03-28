@@ -1,5 +1,5 @@
 <template>
-  <div id="header-container">
+  <div id="header-container" class="glassmorph-container" style="padding: 0px; width: 100%;">
     <div style="padding: 10px 0px;">
       <div id='header'>
         <div style="text-align: left;">{{ weekday}}</div>
@@ -67,12 +67,6 @@ export default {
    
    
 <style scoped>
-  #header-container {
-    width: 100%; 
-    border-radius: 25px;
-    background: linear-gradient(113deg, rgba(154, 154, 154, 0.40) 99.99%, rgba(0, 0, 0, 0.00) 100%);
-    backdrop-filter: blur(10px); 
-  }
   #header {
     display: flex;
     padding: 10px 25px;
