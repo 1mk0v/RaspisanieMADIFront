@@ -1,5 +1,5 @@
 <template>
-  <div id="button-container" v-on:click="clickEvent">
+  <div id="button-container" @click="clickEvent">
     <div id="button-content">
       <slot></slot>
     </div>
@@ -24,6 +24,7 @@ export default {
 <style scoped>
 #button-container {
   border-radius: 20px;
+  cursor: pointer;
   padding: 20px 20px;
   border: 1px solid #fff;
   flex-direction: column;
