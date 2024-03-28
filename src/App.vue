@@ -155,7 +155,7 @@ export default {
   right: 0;
   left: 0;
   display: flex;
-  padding: 25px;
+  padding: 10px;
   justify-content: space-between;
   align-items: flex-start;
   color: #fff;
