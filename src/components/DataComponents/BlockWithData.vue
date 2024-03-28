@@ -1,10 +1,11 @@
 <template>
   <div 
-    class="key-container" 
-    @click="eventHandler" 
+    @click="eventHandler"
+    :class="{'key-container': isButton, 'key-container-none-button': !(isButton) }"
     :style="{
       flex: (flexAuto) ? '1 1 auto' : 'none',
       border: (isButton) ? '1px solid #fff' : 'none',
+      cursor: (isButton) ? 'pointer' : 'default',
       padding: blockPaddingValue
     }">
     <div
@@ -24,7 +25,7 @@ export default {
     return {
       defaultFontSize: '18px',
       defaultFontWeight: '400',
-      defaultBlockPadding: '5px 10px'
+      defaultBlockPadding: '5px 10px',
     }
   },
   props: {
@@ -34,7 +35,7 @@ export default {
     blockPadding: String,
     textAlign: String,
     textSize: String,
-    textWeight: String,
+    textWeight: String
   },
   emits: ['clickComponentEvent'],
   name: 'BlockWithData',
@@ -62,7 +63,21 @@ export default {
 </script>
 
 <style scoped>
+@media (hover:none)  {
+  .key-container:active {
+  background: rgba(0, 0, 0, 0.50);
+}
+}
 .key-container {
+  display: flex;
+  border-radius: 10px;
+  justify-content: center;
+  gap: 10px;
+  flex-direction: column;
+  background: rgba(0, 0, 0, 0.30);
+}
+
+.key-container-none-button {
   display: flex;
   border-radius: 10px;
   justify-content: center;
