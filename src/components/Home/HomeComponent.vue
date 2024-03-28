@@ -58,7 +58,7 @@ export default {
   border-radius: 25px;
   padding: 25px;
   background: linear-gradient(113deg, rgba(154, 154, 154, 0.40) 99.99%, rgba(0, 0, 0, 0.00) 100%);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(50px);
 }
 
 #main-container {
