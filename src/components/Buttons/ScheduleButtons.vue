@@ -22,6 +22,19 @@ export default {
 </script>
   
 <style scoped>
+@media (hover:none) {
+  #button-container:active {
+    background: rgba(0, 0, 0, 0.50);
+  }
+}
+
+@media (hover:hover)  {
+  #button-container:hover {
+    background: rgba(0, 0, 0, 0.50);
+    transition: 300ms;
+  }
+}
+
 #button-container {
   border-radius: 20px;
   cursor: pointer;
@@ -37,4 +50,3 @@ export default {
   font-weight: 500;
 }
 </style>
-     
