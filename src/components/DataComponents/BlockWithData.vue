@@ -63,10 +63,16 @@ export default {
 </script>
 
 <style scoped>
-@media (hover:none)  {
+@media (hover:none) {
   .key-container:active {
-  background: rgba(0, 0, 0, 0.50);
+    background: rgba(0, 0, 0, 0.50);
+  }
 }
+@media (hover:hover)  {
+  .key-container:hover {
+    background: rgba(0, 0, 0, 0.50);
+    transition: 300ms;
+  }
 }
 .key-container {
   display: flex;
