@@ -56,7 +56,9 @@
       </BlockWithData>
       <div id='overflow-container' class="overflow-y-scroll" v-if="communityList">
         <div id="block-content">
-          <ScheduleBlock v-for="(data, index) in choosedSchedule" :key="index"
+          <ScheduleBlock
+            v-for="(data, index) in choosedSchedule"
+            :key="index"
             :lessonInfo="data">
           </ScheduleBlock>
         </div>
